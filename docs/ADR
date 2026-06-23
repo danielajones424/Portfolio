@@ -1,0 +1,30 @@
+# ADR 0001: Defer adoption of the React Compiler
+
+- Status: Accepted
+- Date: 2026-06-23
+
+## Context
+The create-next-app scaffold offers the React Compiler, which auto-memoizes
+components at build time, largely removing the need for manual useMemo/
+useCallback/React.memo. I'm comfortable with React but not advanced, and this
+is a small portfolio site.
+
+## Options considered
+- Enable: free automatic memoization, but it hides the re-render mechanics I'm
+  still learning, and adds magic I can't yet explain in an interview.
+- Disable: I handle memoization manually and learn why and when it matters.
+
+## Decision
+Disable the React Compiler for now.
+
+## Rationale
+I want to understand why re-renders happen and what useMemo/useCallback actually
+solve before delegating that to a compiler. At this scale the compiler's benefit
+is negligible — enabling it would be optimization with no problem to solve, i.e.
+resume-driven, not need-driven.
+
+## Consequences
+I'll write memoization by hand where genuinely needed. I commit to revisiting in
+Phase 3: profile performance, and adopt the compiler only if measured re-render
+overhead justifies it — at which point it becomes a documented, deliberate
+optimization rather than a default I never questioned.
